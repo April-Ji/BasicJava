@@ -57,11 +57,9 @@ static变量也称作静态变量，静态变量和非静态变量的区别是�
 
 static关键字还有一个比较关键的作用就是 用来形成静态代码块以优化程序性能。static块可以置于类中的任何地方，类中可以有多个static块。在类初次被加载的时候，会按照static块的顺序来执行每个static块，并且只会执行一次。
 
-为什么说static块可以用来优化程序性能，是因为它的特性:只会在类加载的时候执行一次。下面看个例子:
-     
-     
-     class Person {
-         
+为什么说static块可以用来优化程序性能，是因为它的特性:只会在类加载的时候执行一次。下面看个例子:    
+     
+     class Person { 
          private Data birthDate;
         
          public Person(Data birthdate) {
@@ -75,11 +73,10 @@ static关键字还有一个比较关键的作用就是 用来形成静态代码�
          }
      }
 
-isBornBoomer是用来这个人是否是1946-1964年出生的，而每次isBornBoomer被调用的时候，都会生成startDate和birthDate两个对象，造成了空间浪费，如果改成这样效率会更好：
+isBornBoomer是用来这个人是否是1946-1964年出生的，而每次isBornBoomer被调用的时候，都会生成startDate和birthDate两个对象，造成了空间浪费，如果改成这样效率会更好：     
+    
      
-     
-     class Person {
-     
+     class Person {
          private Data birthDate;
          
          private static Date startDate, endDate;
