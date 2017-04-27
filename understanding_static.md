@@ -58,40 +58,40 @@ static关键字还有一个比较关键的作用就是 用来形成静态代码�
 为什么说static块可以用来优化程序性能，是因为它的特性:只会在类加载的时候执行一次。下面看个例子:
 
 
-    class Person {
-        private Data birthDate;
+     class Person {
+         private Data birthDate;
         
-        public Person(Data birthdate) {
-            this.birthDate = birthdate;
-        }
+         public Person(Data birthdate) {
+             this.birthDate = birthdate;
+         }
         
-        boolean isBornBoomer() {
-            Data startDate = Data.valueOf("1946");
-            Data endDate = Date.valueOf("1964");
-            return birthDate.compareTo(startDate) >= 0 && birthData.compareTo(endData) < 0;
-        }
-    }
+         boolean isBornBoomer() {
+             Data startDate = Data.valueOf("1946");
+             Data endDate = Date.valueOf("1964");
+             return birthDate.compareTo(startDate) >= 0 && birthData.compareTo(endData) < 0;
+         }
+     }
 
 isBornBoomer是用来这个人是否是1946-1964年出生的，而每次isBornBoomer被调用的时候，都会生成startDate和birthDate两个对象，造成了空间浪费，如果改成这样效率会更好：
 
 
-    class Person {
-        private Data birthDate;
-        private static Date startDate, endDate;
+     class Person {
+         private Data birthDate;
+         private static Date startDate, endDate;
+         
+         static {
+             startDate = Date.valueOf("1946");
+             endDate = Date.valueOf("1964");
+         }
         
-        static {
-            startDate = Date.valueOf("1946");
-            endDate = Date.valueOf("1964");
-        }
+         public Person(Data birthdate) {
+             this.birthDate = birthdate;
+         }
         
-        public Person(Data birthdate) {
-            this.birthDate = birthdate;
-        }
-        
-        boolean isBornBoomer() {
-            return birthDate.compareTo(startDate) >= 0 && birthData.compareTo(endData) < 0;
-        }
-    }
+         boolean isBornBoomer() {
+             return birthDate.compareTo(startDate) >= 0 && birthData.compareTo(endData) < 0;
+         }
+     }
 
 因此，很多时候会将一些只需要进行一次的初始化操作都放在static代码块中进行。
 
