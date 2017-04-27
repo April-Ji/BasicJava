@@ -20,8 +20,8 @@ static方法一般称作静态方法，由于静态方法不依赖于任何对�
 
 但是要注意的是，虽然在静态方法中不能访问非静态成员方法和非静态成员变量，但是在非静态成员方法中是可以访问静态成员方法/变量的。举个简单的例子：
 
-    class MyObject {
 
+    class MyObject {
         private static String str1 = "staticProperty";
         private String str2 = "Property";
   
@@ -57,6 +57,7 @@ static关键字还有一个比较关键的作用就是 用来形成静态代码�
 
 为什么说static块可以用来优化程序性能，是因为它的特性:只会在类加载的时候执行一次。下面看个例子:
 
+
     class Person {
         private Data birthDate;
         
@@ -72,6 +73,7 @@ static关键字还有一个比较关键的作用就是 用来形成静态代码�
     }
 
 isBornBoomer是用来这个人是否是1946-1964年出生的，而每次isBornBoomer被调用的时候，都会生成startDate和birthDate两个对象，造成了空间浪费，如果改成这样效率会更好：
+
 
     class Person {
         private Data birthDate;
