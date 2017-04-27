@@ -61,7 +61,7 @@ static关键字还有一个比较关键的作用就是 用来形成静态代码�
 
      
           
-     class Person {      
+     class Person {
          private Data birthDate;
         
          public Person(Data birthdate) {
