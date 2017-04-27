@@ -9,7 +9,7 @@ Java中的static关键字解析
 “static方法就是没有this的方法。在static方法内部不能调用非静态方法，反过来是可以的。而且可以在没有创建任何对象的前提下，仅仅通过类本身来调用static方法。这实际上正是static方法的主要用途。”
 
 这段话虽然只是说明了static方法的特殊之处，但是可以看出static关键字的基本作用，简而言之，就是：
-         
+
                                        方便在没有创建对象的情况下来进行调用（方法/变量）。
 
 很显然，被static关键字修饰的方法或者变量不需要依赖于对象来进行访问，只要类被加载了，就可以通过类名去进行访问。static可以用来修饰类的成员方法、类的成员变量，另外可以编写static代码块来优化程序性能。
@@ -146,3 +146,93 @@ isBornBoomer是用来这个人是否是1946-1964年出生的，而每次isBornBo
 
 
 三.常见的笔试面试题
+
+下面列举一些面试笔试中经常遇到的关于static关键字的题目，仅供参考。
+
+（1）下面这段代码的输出结果是什么？
+
+    public class Test extends Base{
+ 
+        static{
+            System.out.println("test static");
+        }
+         
+        public Test(){
+            System.out.println("test constructor");
+        }
+         
+        public static void main(String[] args) {
+            new Test();
+        }
+    }
+ 
+    class Base{
+         
+        static{
+            System.out.println("base static");
+        }
+         
+        public Base(){
+            System.out.println("base constructor");
+        }
+    }
+
+
+这段代码具体的执行过程：
+先要寻找到main方法，因为main方法是程序的入口，但是在执行main方法之前，必须先加载Test类，而在加载Test类的时候发现Test类继承自Base类，因此会转去先加载Base类，在加载Base类的时候，发现有static块，便执行了static块。在Base类加载完成之后，便继续加载Test类，然后发现Test类中也有static块，便执行static块。在加载完所需的类之后，便开始执行main方法。在main方法中执行new Test()的时候会先调用父类的构造器，然后再调用自身的构造器。因此，如下的输出结果。
+
+    base static
+    test static
+    base constructor
+    test constructor
+    
+（2）这段代码的输出结果是什么？
+
+    public class Test {
+        Person person = new Person("Test");
+        static{
+            System.out.println("test static");
+        }
+     
+        public Test() {
+            System.out.println("test constructor");
+        }
+     
+        public static void main(String[] args) {
+            new MyClass();
+        }
+    }
+     
+    class Person{
+        static{
+            System.out.println("person static");
+        }
+        public Person(String str) {
+            System.out.println("person "+str);
+        }
+    }
+
+    class MyClass extends Test {
+        Person person = new Person("MyClass");
+        static{
+            System.out.println("myclass static");
+        }
+         
+        public MyClass() {
+            System.out.println("myclass constructor");
+        }
+    }
+
+首先加载Test类，因此会执行Test类中的static块。接着执行new MyClass()，而MyClass类还没有被加载，因此需要加载MyClass类。在加载MyClass类的时候，发现MyClass类继承自Test类，但是由于Test类已经被加载了，所以只需要加载MyClass类，那么就会执行MyClass类的中的static块。在加载完之后，就通过构造器来生成对象。而在生成对象的时候，必须先初始化父类的成员变量，因此会执行Test中的Person person = new Person()，而Person类还没有被加载过，因此会先加载Person类并执行Person类中的static块，接着执行父类的构造器，完成了父类的初始化，然后就来初始化自身了，因此会接着执行MyClass中的Person person = new Person()，最后执行MyClass的构造器。所以输出结果是：
+
+    test static
+    myclass static
+    person static
+    person Test
+    test constructor
+    person MyClass
+    myclass constructor 
+
+
+
+
