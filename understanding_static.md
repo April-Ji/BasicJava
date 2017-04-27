@@ -24,25 +24,36 @@ Java中的static关键字解析
 　　但是要注意的是，虽然在静态方法中不能访问非静态成员方法和非静态成员变量，但是在非静态成员方法中是可以访问静态成员方法/变量的。举个简单的例子：
 
 class MyObject {
-  private static String str1 = "staticProperty";
-  private String str2 = "Property";
+    private static String str1 = "staticProperty";
+    private String str2 = "Property";
   
-  public MyObject() {
-  }
+    public MyObject() {
+    }
   
-  public void print1() {
-    System.out.println(str1);
-    System.out.println(str2);
-    print2();
-  }
+    public void print1() {
+        System.out.println(str1);
+        System.out.println(str2);
+        print2();
+    }
   
-  public static void print2() {
-    System.out.println(str1);
-    System.out.println(str2);
-    print1(); 
-  }
+    public static void print2() {
+        System.out.println(str1);
+        System.out.println(str2);
+        print1(); 
+    }
 }
 
+在上面的代码中，由于print2方法是独立于对象存在的，可以直接用过类名调用。假如说可以在静态方法中访问非静态方法/变量的话，那么如果在main方法中有下面一条语句：
+
+　　MyObject.print2();
+
+　　此时对象都没有，str2根本就不存在，所以就会产生矛盾了。同样对于方法也是一样，由于你无法预知在print1方法中是否访问了非静态成员变量，所以也禁止在静态成员方法中访问非静态成员方法。
+
+　　而对于非静态成员方法，它访问静态成员方法/变量显然是毫无限制的。
+
+　　因此，如果说想在不创建对象的情况下调用某个方法，就可以将这个方法设置为static。我们最常见的static方法就是main方法，至于为什么main方法必须是static的，现在就很清楚了。因为程序在执行main方法的时候没有创建任何对象，因此只有通过类名来访问。
+
+　　另外记住，即使没有显示地声明为static，类的构造器实际上也是静态方法。
 
 二.static关键字的误区
 三.常见的笔试面试题
