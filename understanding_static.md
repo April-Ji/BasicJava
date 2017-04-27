@@ -61,6 +61,7 @@ static关键字还有一个比较关键的作用就是 用来形成静态代码�
      
      
      class Person {
+         
          private Data birthDate;
         
          public Person(Data birthdate) {
@@ -78,7 +79,9 @@ isBornBoomer是用来这个人是否是1946-1964年出生的，而每次isBornBo
      
      
      class Person {
+     
          private Data birthDate;
+         
          private static Date startDate, endDate;
          
          static {
